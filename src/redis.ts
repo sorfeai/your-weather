@@ -1,5 +1,5 @@
 import redis from 'redis';
 
-const REDIS_PORT = Number(process.env.REDIS_PORT) || 6379;
+const REDIS_URL = process.env.REDIS_URL || 6379;
 
-export const client = redis.createClient(REDIS_PORT);
+export const client = redis.createClient(REDIS_URL as any);

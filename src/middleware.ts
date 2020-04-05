@@ -1,7 +1,6 @@
 import { client } from './redis';
 
 export function cache(param: string, query = false) {
-  // TODO: arg types
   return (req: any, res: any, next: any) => {
     let key;
 
