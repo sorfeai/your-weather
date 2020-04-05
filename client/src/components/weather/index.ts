@@ -1,0 +1,1 @@
+export { WeatherData as Weather } from './Weather';
