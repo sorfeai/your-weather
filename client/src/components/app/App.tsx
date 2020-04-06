@@ -5,12 +5,13 @@ import { Layout } from '../layout';
 import { Weather } from '../weather';
 import { GetWeatherButton } from '../button/GetWeatherButton';
 import { getWeatherThunk } from '../../model/thunks';
-import { getRequestStatusSelector } from '../../model/selectors';
+import { getLoadingSelector, getErrorSelector, getWeatherSelector } from '../../model/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../actions';
-import { RequestStatus } from '../../types';
+import { AppError } from '../../model/types';
+import { GeoLocationError, RequestError } from '../error';
 
-const AppStyled = styled.div`
+const AppContainer = styled.div`
   min-height: 100vh;
   background-color: ${colors.backgronud};
   font-size: ${sizes.fontBasic};
@@ -18,7 +19,10 @@ const AppStyled = styled.div`
 `;
 
 export function App() {
-  const weatherRequestStatus = useSelector(getRequestStatusSelector); 
+  const loading = useSelector(getLoadingSelector); 
+  const error = useSelector(getErrorSelector); 
+  const weather = useSelector(getWeatherSelector); 
+  const isLoaded = weather !== null;
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -26,17 +30,22 @@ export function App() {
     dispatch(getWeatherThunk());
   }, [dispatch]);
 
+  let content;
+  if (error === AppError.GeoLocationError) {
+    content = <GeoLocationError />;
+  } else if (error === AppError.RequestError) {
+    content = <RequestError />;
+  } else if (!isLoaded || loading) {
+    content = <GetWeatherButton isLoading={loading} onClick={getWeather} />;
+  } else {
+    content = <Weather />;
+  }
+
   return (
-    <AppStyled>
+    <AppContainer>
       <Layout>
-        {weatherRequestStatus === null || weatherRequestStatus === RequestStatus.pending ? (
-          <GetWeatherButton 
-            loading={weatherRequestStatus === RequestStatus.pending}
-            onClick={getWeather} />
-        ) : weatherRequestStatus === RequestStatus.error ? (
-          <div>Error</div>
-        ) : <Weather />}
+        {content}
       </Layout>
-    </AppStyled>
+    </AppContainer>
   );
 }

@@ -1,12 +1,12 @@
 import { getLocation, getWeather } from './api';
-import { SetRequestStatus, SetLocation, SetWeather, SelectDay } from './actions';
+import { SetLoading, SetError, SetLocation, SetWeather, SelectDay } from './actions';
 import { AppDispatch } from '../actions';
 import { getWeatherIconURL } from '../meta';
-import { RequestStatus } from '../types';
+import { AppError } from './types';
 
 export function getWeatherThunk() {
   return (dispatch: AppDispatch) => {
-    dispatch(new SetRequestStatus(RequestStatus.pending));
+    dispatch(new SetLoading(true));
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
@@ -28,20 +28,22 @@ export function getWeatherThunk() {
               return wth;
             }))
           })
-          .then(weatherList => {
-            // selecting current day
-            const selectedDayId = weatherList[0].id;
+          .then(weatherDays => {
+            const selectedDayId = weatherDays[0].id;
             dispatch(new SelectDay(selectedDayId));
 
-            // setting weather data
-            dispatch(new SetWeather(weatherList));
+            // we only need first 6 days
+            const neededDays = weatherDays.slice(0, 6);
+            dispatch(new SetWeather(neededDays));
 
-            // request succeeded
-            dispatch(new SetRequestStatus(RequestStatus.succeed));
+            dispatch(new SetLoading(false));
+          })
+          .catch((err) => {
+            dispatch(new SetError(AppError.RequestError));
           });
+      }, () => {
+        dispatch(new SetError(AppError.GeoLocationError));
       });
-    } else { 
-      // TODO: implement
     }
   };
 }

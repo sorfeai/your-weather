@@ -1,14 +1,19 @@
-import { ILocation, IWeatherData } from "./types";
-import { RequestStatus } from '../types';
+import { ILocation, IWeatherData, AppError } from './types';
 
-export const SET_REQUEST_STATUS = "SET_REQUEST_STATUS";
+export const SET_LOADING = "SET_LOADING";
+export const SET_ERROR = "SET_ERROR";
 export const SET_LOCATION = "SET_LOCATION";
 export const SET_WEATHER = "SET_WEATHER";
 export const SELECT_DAY = "SELECT_DAY";
 
-export class SetRequestStatus {
-  public readonly type = SET_REQUEST_STATUS;
-  constructor(public payload: RequestStatus) {}
+export class SetLoading {
+  public readonly type = SET_LOADING;
+  constructor(public payload: boolean) {}
+}
+
+export class SetError {
+  public readonly type = SET_ERROR;
+  constructor(public payload: AppError) {}
 }
 
 export class SetLocation {
@@ -27,13 +32,14 @@ export class SelectDay {
 }
 
 export type LocationActionType =
-  | typeof SET_REQUEST_STATUS
+  | typeof SET_LOADING
   | typeof SET_LOCATION
   | typeof SET_WEATHER
   | typeof SELECT_DAY;
 
 export type LocationAction =
-  | SetRequestStatus
+  | SetLoading
+  | SetError
   | SetLocation
   | SetWeather
   | SelectDay;

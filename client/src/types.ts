@@ -1,9 +1,3 @@
-export enum RequestStatus {
-  pending = 'pending',
-  succeed = 'succed',
-  error = 'error',
-}
-
 export enum WeatherState {
   Snow = 'sn',
   Sleet = 'sl',

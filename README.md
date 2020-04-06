@@ -2,6 +2,6 @@
 
 ![](demo.gif)
 
-Deployed: https://shrouded-falls-33121.herokuapp.com/api/weather/44418
+Deployed: https://your-weather-detector.herokuapp.com/
 
 API used: https://metaweather.com

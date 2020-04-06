@@ -1,23 +1,25 @@
 import produce from 'immer';
-import { ILocation, IWeatherData } from './types';
+import { ILocation, IWeatherData, AppError } from './types';
 import { 
   LocationAction,
-  SET_REQUEST_STATUS,
+  SET_LOADING,
+  SET_ERROR,
   SET_LOCATION,
   SET_WEATHER,
   SELECT_DAY
 } from './actions';
-import { RequestStatus } from '../types';
 
 export interface IState {
-  requestStatus: RequestStatus | null; // null means not requested yet
+  loading: boolean; 
+  error: AppError | null;
   location: ILocation | null;
   weather: IWeatherData[] | null;
   selectedDay: string | null;
 }
 
 const initialState: IState = {
-  requestStatus: null,
+  loading: false,
+  error: null,
   location: null,
   weather: null,
   selectedDay: null,
@@ -26,8 +28,11 @@ const initialState: IState = {
 export function appReducer(state: IState = initialState, action: LocationAction) {
   return produce(state, draft => {
     switch(action.type) {
-      case SET_REQUEST_STATUS: 
-        draft.requestStatus = action.payload;
+      case SET_LOADING: 
+        draft.loading = action.payload;
+        break;
+      case SET_ERROR: 
+        draft.error = action.payload;
         break;
       case SET_LOCATION: 
         draft.location = action.payload;

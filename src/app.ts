@@ -11,9 +11,10 @@ import errorhandler from 'errorhandler';
 
 import routes from './routes/index';
 
-const PORT = Number(process.env.PORT) || 8080;
-
 const isProd = process.env.NODE_ENV === 'production';
+
+const PORT = Number(isProd ? process.env.PORT : process.env.DEVELOPMENT_PORT)
+  || 8080;
 
 const app: Application = express();
 

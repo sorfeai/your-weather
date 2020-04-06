@@ -17,6 +17,8 @@ export type AppMiddleware = Middleware<
   Dispatch<Action<AppActionType>>
 >;
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const composeEnhancers =
   (window as any)._REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -30,10 +32,17 @@ const actionToPlainObject: AppMiddleware = store => next => action => {
   }
 };
 
+const middleware = [actionToPlainObject, thunk];
+if (!isProd) {
+  middleware.push(logger);
+}
+
 export const configureStore = () =>
   createStore(
     reducer,
-    composeEnhancers(applyMiddleware(actionToPlainObject, thunk, logger))
+    isProd 
+      ? applyMiddleware(...middleware)
+      : composeEnhancers(applyMiddleware(...middleware))
   );
 
 export type AppStore = ReturnType<typeof configureStore>;

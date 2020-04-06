@@ -38,14 +38,14 @@ interface IWeatherCurrentProps {
 
 const appear = keyframes`
   from {
-    background-size: 120%;
+    transform: scale(1.2);
   }
   to {
-    background-size: 140%;
+    transform: scale(1);
   }
 `;
 
-const WeatherCurrentStyled = styled.div<{ backgroundImage: string }>`
+const WeatherSelectedStyled = styled.div<{ backgroundImage: string }>`
   position: relative;
   display: flex;
   padding: 20px 25px;
@@ -68,7 +68,7 @@ const WeatherCurrentStyled = styled.div<{ backgroundImage: string }>`
     background-repeat: no-repeat;
     background-position: center;
     background-size: 140% auto;
-    animation: ${appear} 2.5s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: ${appear} 3s cubic-bezier(0.22, 1, 0.36, 1);
   }
   
   @media (max-width: ${breakpoints.small}) {
@@ -158,7 +158,7 @@ const WindDirection = styled.div<{ degree: number }>`
   transform: rotate(${props => props.degree}deg);
 `;
 
-export function WeatherCurrent({ 
+export function WeatherSelected({ 
   locationTitle,
   applicableDate,
   temp,
@@ -184,7 +184,7 @@ export function WeatherCurrent({
   const weatherStateImage = weatherStateImages[stateAbbr];
 
   return (
-    <WeatherCurrentStyled backgroundImage={weatherStateImage}>
+    <WeatherSelectedStyled backgroundImage={weatherStateImage}>
       <LeftCol>
         <div>
           <Location>Weather in <b>{locationTitle}</b></Location>
@@ -216,6 +216,6 @@ export function WeatherCurrent({
           <b>Air pressure:</b> {formattedAirPressure}
         </MetaInfoItem>
       </RightCol>
-    </WeatherCurrentStyled>
+    </WeatherSelectedStyled>
   )
 }

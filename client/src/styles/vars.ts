@@ -4,6 +4,7 @@ export const colors = {
   fontPrimary: 'black',
   fontSecondary: 'grey',
   fontAlt: 'white',
+  fontError: 'red',
   fontEmphasis: '#f24f5a',
   hover: '#f2f2f2',
 }

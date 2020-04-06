@@ -2,8 +2,13 @@ import { WeatherState } from './types';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-export const API_HOST = isProd ? 'https://shrouded-falls-33121.herokuapp.com' : 'localhost';
-export const API_PORT = isProd ? '' : 5000;
+export const API_HOST = isProd 
+  ? process.env.REACT_APP_PRODUCTION_HOST 
+  : process.env.REACT_APP_DEVELOPMENT_HOST;
+
+export const API_PORT = isProd 
+  ? 443 
+  : process.env.REACT_APP_DEVELOPMENT_PORT;
 
 export const API_LOCATION = '/api/location';
 export const API_WEATHER = '/api/weather';

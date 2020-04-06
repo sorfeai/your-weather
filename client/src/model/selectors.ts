@@ -1,7 +1,9 @@
 import { IAppState } from "../reducer";
 import { createSelector } from 'reselect';
 
-export const getRequestStatusSelector = (state: IAppState) => state.requestStatus;
+export const getLoadingSelector = (state: IAppState) => state.loading;
+
+export const getErrorSelector = (state: IAppState) => state.error;
 
 export const getLocationSelector = (state: IAppState) => state.location;
 

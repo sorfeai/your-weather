@@ -7,11 +7,10 @@ import {
   getSelectedDaySelector,
   getSelectedDayWeatherSelector,
 } from '../../model/selectors';
-import { getWeatherThunk } from '../../model/thunks';
 import { SelectDay } from '../../model/actions';
 import { AppDispatch } from '../../actions';
 import { WeatherDay } from './WeatherDay';
-import { WeatherCurrent } from './WeatherCurrent';
+import { WeatherSelected } from './WeatherSelected';
 import { sizes, breakpoints } from '../../styles/vars';
 
 const Wrapper = styled.div`
@@ -69,7 +68,7 @@ const WeatherDaysList = styled.div`
   }
 `;
 
-export function WeatherData() {
+export function Weather() {
   const location = useSelector(getLocationSelector); 
   const weather = useSelector(getWeatherSelector); 
   const selectedDay = useSelector(getSelectedDaySelector); 
@@ -85,7 +84,7 @@ export function WeatherData() {
     <Wrapper>
       <>
         <WeatherCurrentWrapper>
-          <WeatherCurrent
+          <WeatherSelected
             locationTitle={location!.title}
             temp={selectedDayWeather!.the_temp}
             minTemp={selectedDayWeather!.min_temp}
@@ -107,6 +106,7 @@ export function WeatherData() {
           <WeatherDaysList>
             {weather!.map(day => (
               <WeatherDay
+                key={day.id}
                 id={day.id}
                 selected={day.id === selectedDay}
                 temp={day.the_temp}
@@ -120,14 +120,4 @@ export function WeatherData() {
       </>
     </Wrapper>
   ); 
-}
-
-const LoadingStyled = styled.div``;
-
-function Loading() {
-  return (
-    <LoadingStyled>
-      Loading...
-    </LoadingStyled>
-  );
 }

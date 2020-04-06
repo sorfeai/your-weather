@@ -5,11 +5,11 @@ import { WeatherState } from '../../types';
 import { colors, sizes } from '../../styles/vars';
 
 interface IGetWeatherButtonProps {
-  loading: boolean;
+  isLoading: boolean;
   onClick: () => void;
 }
 
-const ButtonStyled = styled.button<{ loading: boolean }>`
+const ButtonStyled = styled.button<{ isLoading: boolean }>`
   display: flex;
   width: 230px;
   height: 60px;
@@ -28,12 +28,12 @@ const ButtonStyled = styled.button<{ loading: boolean }>`
   transition: transform 200ms ease-out,
               box-shadow 200ms ease-out;
 
-  ${({ loading }) => !loading && `
+  ${({ isLoading: loading }) => !loading && `
     cursor: pointer;
   `}
 
   &:hover {
-    ${({ loading }) => !loading && `
+    ${({ isLoading: loading }) => !loading && `
       transform: scale(1.06);
       box-shadow: 0px 3px 20px 0px rgba(68,139,229,1);
     `}
@@ -73,9 +73,9 @@ const LoadingIcon = styled.div`
   animation: ${rotate} 2s linear infinite;
 `;
 
-export function GetWeatherButton({ loading, onClick }: IGetWeatherButtonProps) {
+export function GetWeatherButton({ isLoading: loading, onClick }: IGetWeatherButtonProps) {
   return (
-    <ButtonStyled loading={loading} onClick={onClick}>
+    <ButtonStyled isLoading={loading} onClick={onClick}>
       {loading ? (
         <LoadingIcon />
       ) : (

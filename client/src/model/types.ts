@@ -1,5 +1,10 @@
 import { WeatherState } from '../types';
 
+export enum AppError {
+  RequestError = 'RequestError',
+  GeoLocationError = 'GeoLocationError',
+}
+
 export interface ILocation {
   distance: number;
   title: string;
